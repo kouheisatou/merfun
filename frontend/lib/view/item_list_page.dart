@@ -5,22 +5,22 @@ import 'package:frontend/view/detail_page.dart';
 import 'package:frontend/models/project_card_model.dart';
 import 'package:http/http.dart' as http;
 
-class ItemsListPage extends StatefulWidget {
+class TicketListPage extends StatefulWidget {
   @override
-  _ItemsListPageState createState() => _ItemsListPageState();
+  _TicketListPageState createState() => _TicketListPageState();
 }
 
-class _ItemsListPageState extends State<ItemsListPage> {
+class _TicketListPageState extends State<TicketListPage> {
   List<ProjectCardModel> _items = [];
   bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    _fetchItems();
+    fetchTickets();
   }
 
-  Future<void> _fetchItems() async {
+  Future<void> fetchTickets() async {
     // ダミーAPIからデータを取得
     final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/photos?_limit=8'));
 

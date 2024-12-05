@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white, // 背景色を白に設定
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: Colors.white, // 色のスキームでプライマリカラーを白に
-          secondary: Colors.black, // アクセントカラー
+          secondary: Colors.red,
         ),
       ),
       home: MainScreen(),
@@ -70,27 +70,34 @@ class _MainScreenState extends State<MainScreen> {
           );
         }).toList(),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: _onTabTapped,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'ホーム',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: '検索',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: '通知',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'プロフィール',
-          ),
-        ],
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        width: double.infinity,
+        height: 70,
+        child: Stack(
+          children: [
+            Image.asset("images/bottom_tab_bar.jpeg"),
+            Positioned(
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  width: 60,
+                  height: 60,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 60,
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  width: 60,
+                  height: 60,
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -116,7 +123,7 @@ class TabNavigator extends StatelessWidget {
             page = DetailPage(ticketId: settings.arguments as String);
             break;
           default:
-            page = ItemsListPage();
+            page = TicketListPage();
         }
         return MaterialPageRoute(builder: (context) => page);
       },
