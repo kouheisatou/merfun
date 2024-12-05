@@ -17,7 +17,7 @@ class ConfirmationDialog extends StatelessWidget {
             SizedBox(height: 16),
             // メッセージテキスト
             Text(
-              "応援できました！",
+              "ご購入ありがとうございます！",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
@@ -31,7 +31,6 @@ class ConfirmationDialog extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
               ),
               onPressed: () {
-                // NFTカードを見る処理
               },
               child: Text(
                 "獲得したNFTカードを見る",
@@ -39,13 +38,11 @@ class ConfirmationDialog extends StatelessWidget {
               ),
             ),
             SizedBox(height: 8),
-            // 「シェアする」テキストボタン
             TextButton(
               onPressed: () {
-                // 応援をシェアする処理
               },
               child: Text(
-                "応援したことをシェアする",
+                "シェアする",
                 style: TextStyle(fontSize: 14, color: Colors.red),
               ),
             ),

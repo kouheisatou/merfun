@@ -25,7 +25,7 @@ class _TicketListPageState extends State<TicketListPage> {
 
     if (response.statusCode == 200) {
       // final data = json.decode(response.body);
-      final data = json.decode('[{"id": "id1", "title": "title", "imageUrl": ""}]');
+      final data = json.decode('[{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""}]');
       setState(() {
         _items = (data as List).map((item) => TicketCardModel.fromJson(item)).toList();
         _isLoading = false;
@@ -52,7 +52,7 @@ class _TicketListPageState extends State<TicketListPage> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 8.0,
                 mainAxisSpacing: 8.0,
-                childAspectRatio: 3 / 4,
+                childAspectRatio: 1,
               ),
               itemCount: _items.length,
               itemBuilder: (context, index) {
@@ -70,8 +70,7 @@ class _TicketListPageState extends State<TicketListPage> {
                           borderRadius: BorderRadius.circular(12),
                           child: Image.network(
                             ticketItem.imageUrl,
-                            fit: BoxFit.cover,
-                            height: 250,
+                            fit: BoxFit.fill,
                           ),
                         ),
                       ),

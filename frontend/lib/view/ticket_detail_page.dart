@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:frontend/models/ticket_detail_model.dart';
+import 'package:frontend/view/buttons.dart';
 import 'package:frontend/view/payment_modal.dart';
 import 'package:http/http.dart' as http;
 
@@ -91,11 +92,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   SizedBox(height: 24),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        padding: EdgeInsets.symmetric(vertical: 16.0),
-                      ),
+                    child: MercariButtonRed(
                       onPressed: () {
                         showModalBottomSheet(
                           context: context,
@@ -108,10 +105,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                           },
                         );
                       },
-                      child: Text(
-                        "このプロジェクトを応援する",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
+                      text: "購入する",
                     ),
                   ),
                 ],

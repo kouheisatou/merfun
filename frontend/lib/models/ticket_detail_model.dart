@@ -17,8 +17,8 @@ class TicketDetailModel {
   factory TicketDetailModel.fromJson(Map<String, dynamic> json) {
     return TicketDetailModel(
       id: json["id"] ?? "",
-      title: json["title"] ?? "プロジェクトタイトル",
-      description: json["description"] ?? "プロジェクトの詳細情報",
+      title: json["title"] ?? "チケットタイトル",
+      description: json["description"] ?? "チケットの詳細情報",
       imageUrl: json["imageUrl"] ?? "",
       price: json["supporterCount"] ?? 0,
     );
