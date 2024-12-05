@@ -52,7 +52,7 @@
                  })
              })
 
-             $('#send_project').click(function () {
+             $('#send_ticket').click(function () {
                  let confirm_text = 'Are you sure to send?';
                  let confirm_result = confirm(confirm_text);
                  if (confirm_result !== true) {
@@ -60,18 +60,25 @@
                      return
                  }
 
-                 let project_data = {
+                 let ticket_data = {
                      'name': $('#send_name').val(),
-                     'description': $('#project_description').val(),
+                     'description': $('#ticket_description').val(),
+                     'price': $('#price').val(),
+                     'owner_address': $('#blockchain_address').val()
                  };
 
                  $.ajax({
-                     url: '/project',
+                     url: '/ticket',
                      type: 'POST',
                      contentType: 'application/json',
-                     data: JSON.stringify(project_data),
+                     data: JSON.stringify(ticket_data),
                      success: function (response) {
-                        $('#project_address').val(response['blockchain_address']);
+                        let id = response['ticket_id']
+                        let price = response['price']
+                        $('#owner_address').val(response['owner_address']);
+                        $('#ticket_id').text(id);
+                        $('#price').text(price);
+
                          console.info(response);
                          alert('Send success');
                      },
@@ -104,7 +111,6 @@
              });*/
 
              setInterval(reload_amount, 2000)
-
          })
 
     </script>
@@ -139,15 +145,18 @@
     </div>
 
     <div>
-        <h1>Project</h1>
+        <h1>Ticket</h1>
         <div>
             <br>
-            Name: <input id="send_name" type="text">Project Address:<textarea id="project_address" rows="1" cols="50"></textarea>
+            Name: <input id="send_name" type="text">
 
             <br>
-            Description: <input id="project_description" size="30" type="text">
+            Description: <input id="ticket_description" size="30" type="text">
             <br>
-            <button id="send_project">Send</button>
+            Ticket ID: <div id="ticket_id">0</div>
+            Price: <input id="price" size="20" type="text">
+            <br>
+            <button id="send_ticket">Send</button>
         </div>
 
 </body>
