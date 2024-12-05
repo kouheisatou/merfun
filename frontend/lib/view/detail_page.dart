@@ -6,25 +6,31 @@ import 'package:frontend/view/payment_modal.dart';
 import 'package:http/http.dart' as http;
 
 class DetailPage extends StatefulWidget {
+  String ticketId;
+
+  DetailPage({required this.ticketId, super.key});
+
   @override
   _DetailPageState createState() => _DetailPageState();
 }
 
 class _DetailPageState extends State<DetailPage> {
-  late Future<ProjectDetailModel> _idolProject;
+  late Future<TicketDetailModel> ticket;
 
   @override
   void initState() {
     super.initState();
-    _idolProject = _fetchProjectDetails();
+    ticket = fetchTicketDetail();
   }
 
-  Future<ProjectDetailModel> _fetchProjectDetails() async {
+  Future<TicketDetailModel> fetchTicketDetail() async {
     // ダミーAPIからデータを取得
-    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts/1'));
+    final response = await http.get(Uri.parse('https://google.com'));
+    // final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts/${widget.ticketId}'));
     if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      return ProjectDetailModel.fromJson(data);
+      // final data = json.decode(response.body);
+      final data = json.decode('{}');
+      return TicketDetailModel.fromJson(data);
     } else {
       throw Exception('データの取得に失敗しました');
     }
@@ -42,8 +48,8 @@ class _DetailPageState extends State<DetailPage> {
           },
         ),
       ),
-      body: FutureBuilder<ProjectDetailModel>(
-        future: _idolProject,
+      body: FutureBuilder<TicketDetailModel>(
+        future: ticket,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -66,32 +72,6 @@ class _DetailPageState extends State<DetailPage> {
                       ticket.title,
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                    padding: const EdgeInsets.all(16.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          "現在の支援総額",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          "${ticket.totalSupportAmount.toString()}円",
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          "支援者 ${ticket.supporterCount}人",
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
-                      ],
                     ),
                   ),
                   Padding(
@@ -124,7 +104,7 @@ class _DetailPageState extends State<DetailPage> {
                             borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
                           ),
                           builder: (BuildContext context) {
-                            return PaymentModal();
+                            return PaymentModal(ticket: ticket);
                           },
                         );
                       },

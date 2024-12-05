@@ -25,7 +25,8 @@ class _ItemsListPageState extends State<ItemsListPage> {
     final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/photos?_limit=8'));
 
     if (response.statusCode == 200) {
-      final data = json.decode(response.body);
+      // final data = json.decode(response.body);
+      final data = json.decode('[{"id": "id1", "title": "title", "imageUrl": ""}]');
       setState(() {
         _items = (data as List).map((item) => ProjectCardModel.fromJson(item)).toList();
         _isLoading = false;
@@ -59,10 +60,7 @@ class _ItemsListPageState extends State<ItemsListPage> {
                 final ticketItem = _items[index]; // データクラスのインスタンスを取得
                 return InkWell(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DetailPage()),
-                    );
+                    Navigator.pushNamed(context, '/details', arguments: _items[index].id);
                   },
                   child: Card(
                     elevation: 2,

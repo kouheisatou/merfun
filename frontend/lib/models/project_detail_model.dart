@@ -1,26 +1,26 @@
-class ProjectDetailModel {
+class TicketDetailModel {
+  final String id;
   final String title;
   final String description;
   final String imageUrl;
-  final int totalSupportAmount;
-  final int supporterCount;
+  final int price;
 
-  ProjectDetailModel({
+  TicketDetailModel({
+    required this.id,
     required this.title,
     required this.description,
     required this.imageUrl,
-    required this.totalSupportAmount,
-    required this.supporterCount,
+    required this.price,
   });
 
   // JSONデータから生成するファクトリメソッド
-  factory ProjectDetailModel.fromJson(Map<String, dynamic> json) {
-    return ProjectDetailModel(
+  factory TicketDetailModel.fromJson(Map<String, dynamic> json) {
+    return TicketDetailModel(
+      id: json["id"] ?? "",
       title: json["title"] ?? "プロジェクトタイトル",
       description: json["description"] ?? "プロジェクトの詳細情報",
       imageUrl: json["imageUrl"] ?? "",
-      totalSupportAmount: json["totalSupportAmount"] ?? 0,
-      supporterCount: json["supporterCount"] ?? 0,
+      price: json["supporterCount"] ?? 0,
     );
   }
 }
