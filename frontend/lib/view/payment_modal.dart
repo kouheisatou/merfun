@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/models/project_detail_model.dart';
+import 'package:frontend/models/ticket_detail_model.dart';
 
 import 'confirmation_dialog.dart';
-import 'mercari_button.dart';
+import 'buttons.dart';
 
 class PaymentModal extends StatelessWidget {
   TicketDetailModel ticket;
@@ -100,14 +100,14 @@ class PaymentModal extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomOutlinedButton(
+                        MerucariButtonWhite(
                           text: " 分割払いで購入 ",
                           onPressed: () {},
                         ),
                         SizedBox(
                           width: 15,
                         ),
-                        CustomElevatedButton(
+                        MercariButtonRed(
                           text: "  購入手続きへ  ",
                           onPressed: () {
                             Navigator.pop(context);

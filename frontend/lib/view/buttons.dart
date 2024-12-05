@@ -2,11 +2,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CustomOutlinedButton extends StatelessWidget {
+class MerucariButtonWhite extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-  const CustomOutlinedButton({
+  const MerucariButtonWhite({
     required this.text,
     required this.onPressed,
     Key? key,
@@ -33,11 +33,11 @@ class CustomOutlinedButton extends StatelessWidget {
 }
 
 // 購入手続きボタン (ElevatedButton)
-class CustomElevatedButton extends StatelessWidget {
+class MercariButtonRed extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-  const CustomElevatedButton({
+  const MercariButtonRed({
     required this.text,
     required this.onPressed,
     Key? key,

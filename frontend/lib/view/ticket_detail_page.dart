@@ -1,20 +1,20 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/models/project_detail_model.dart';
+import 'package:frontend/models/ticket_detail_model.dart';
 import 'package:frontend/view/payment_modal.dart';
 import 'package:http/http.dart' as http;
 
-class DetailPage extends StatefulWidget {
+class TicketDetailPage extends StatefulWidget {
   String ticketId;
 
-  DetailPage({required this.ticketId, super.key});
+  TicketDetailPage({required this.ticketId, super.key});
 
   @override
-  _DetailPageState createState() => _DetailPageState();
+  _TicketDetailPageState createState() => _TicketDetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _TicketDetailPageState extends State<TicketDetailPage> {
   late Future<TicketDetailModel> ticket;
 
   @override
