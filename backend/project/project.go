@@ -4,10 +4,10 @@ import "time"
 
 type Project struct {
 	projectID      string
-	name           string
-	description    string
+	Name           string
+	Description    string
 	currentAmount  float32
-	creatorAddress string
+	CreatorAddress string
 	timeStamp      int64
 }
 
@@ -15,14 +15,19 @@ type ProjectRequest struct {
 	Name        *string `json:"name"`
 	Description *string `json:"description"`
 }
+type ProjectResponse struct {
+	Name           *string `json:"name"`
+	Description    *string `json:"description"`
+	ProjectAddress *string `json:"project_address"`
+}
 
 func NewProject(projectID, name, creatorAddress string, description string) *Project {
 	return &Project{
 		projectID:      projectID,
-		name:           name,
-		description:    description,
+		Name:           name,
+		Description:    description,
 		currentAmount:  0.0,
-		creatorAddress: creatorAddress,
+		CreatorAddress: creatorAddress,
 		timeStamp:      time.Now().UnixNano(),
 	}
 }

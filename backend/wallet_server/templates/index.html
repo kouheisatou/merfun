@@ -71,6 +71,7 @@
                      contentType: 'application/json',
                      data: JSON.stringify(project_data),
                      success: function (response) {
+                        $('#project_address').val(response['blockchain_address']);
                          console.info(response);
                          alert('Send success');
                      },
@@ -141,9 +142,10 @@
         <h1>Project</h1>
         <div>
             <br>
-            Name: <input id="send_name" type="text">
+            Name: <input id="send_name" type="text">Project Address:<textarea id="project_address" rows="1" cols="50"></textarea>
+
             <br>
-            Description: <input id="project_description" size="100" type="text">
+            Description: <input id="project_description" size="30" type="text">
             <br>
             <button id="send_project">Send</button>
         </div>

@@ -98,8 +98,10 @@ func (ws *WalletServer) CreateProject(w http.ResponseWriter, req *http.Request) 
 
 		fmt.Println(newP)
 
+		m, _ := projectWallet.MarshalJSON()
+
 		w.Header().Add("Content-Type", "application/json")
-		io.Writer.Write(w, utils.JsonStatus("success"))
+		io.Writer.Write(w, m[:])
 
 	default:
 		w.WriteHeader(http.StatusBadRequest)
@@ -168,6 +170,38 @@ func (ws *WalletServer) CreateTransaction(w http.ResponseWriter, req *http.Reque
 	}
 }
 
+// Get Project List
+func (ws *WalletServer) GetAllProject(w http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodGet:
+		presp := make([]project.ProjectResponse, 0, len(projectMap))
+
+		if len(projectMap) == 0 {
+			log.Println("Error: No project exist")
+			io.Writer.Write(w, utils.JsonStatus("failed"))
+		}
+
+		for _, proj := range projectMap {
+
+			presp = append(presp, project.ProjectResponse{
+				Name:           &proj.Name,
+				Description:    &proj.Description,
+				ProjectAddress: &proj.CreatorAddress,
+			})
+		}
+		w.Header().Add("Content-Type", "application/json")
+
+		m, _ := json.Marshal(presp)
+
+		io.Writer.Write(w, m[:])
+
+	default:
+		w.WriteHeader(http.StatusBadRequest)
+		log.Println("Error: Invalid http method")
+	}
+
+}
+
 func (ws *WalletServer) WalletAmount(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodGet:
@@ -221,6 +255,7 @@ func (ws *WalletServer) Run() {
 	http.HandleFunc("/", ws.Index)
 	http.HandleFunc("/wallet", ws.Wallet)
 	http.HandleFunc("/project", ws.CreateProject)
+	http.HandleFunc("/project/all", ws.GetAllProject)
 	http.HandleFunc("/wallet/amount", ws.WalletAmount)
 	http.HandleFunc("/transaction", ws.CreateTransaction)
 	log.Fatal(http.ListenAndServe("0.0.0.0:"+strconv.Itoa(int(ws.port)), nil))
