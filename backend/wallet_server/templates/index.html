@@ -52,6 +52,35 @@
                  })
              })
 
+             $('#send_project').click(function () {
+                 let confirm_text = 'Are you sure to send?';
+                 let confirm_result = confirm(confirm_text);
+                 if (confirm_result !== true) {
+                     alert('Canceled');
+                     return
+                 }
+
+                 let project_data = {
+                     'name': $('#send_name').val(),
+                     'description': $('#project_description').val(),
+                 };
+
+                 $.ajax({
+                     url: '/project',
+                     type: 'POST',
+                     contentType: 'application/json',
+                     data: JSON.stringify(project_data),
+                     success: function (response) {
+                         console.info(response);
+                         alert('Send success');
+                     },
+                     error: function (response) {
+                         console.error(response);
+                         alert('Send failed');
+                     }
+                 })
+             })
+
              function reload_amount() {
                  let data = {'blockchain_address': $('#blockchain_address').val()}
                  $.ajax({
@@ -107,6 +136,17 @@
             <button id="send_money_button">Send</button>
         </div>
     </div>
+
+    <div>
+        <h1>Project</h1>
+        <div>
+            <br>
+            Name: <input id="send_name" type="text">
+            <br>
+            Description: <input id="project_description" size="100" type="text">
+            <br>
+            <button id="send_project">Send</button>
+        </div>
 
 </body>
 </html>

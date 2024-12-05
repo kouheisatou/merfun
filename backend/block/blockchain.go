@@ -20,6 +20,8 @@ const (
 	MINING_TIMER_SEC  = 20
 )
 
+//var nftState = make(map[string]*NFT)
+
 // Block
 type Block struct {
 	nonce        int
@@ -134,7 +136,30 @@ func (bc *Blockchain) AddTransaction(sender string, recipient string, value floa
 		}*/
 
 		bc.transactionPool = append(bc.transactionPool, t)
+
+		/*err := godotenv.Load(".env")
+
+		if err != nil {
+			log.Fatalf("ENV Load failed : %v", err)
+		}
+
+		apiKey := os.Getenv("OPEN_API_KEY")
+
+		if apiKey == "" {
+			log.Fatalf("API_KEY missing")
+		}
+
+		randomMessage, err := generateMessage(apiKey)
+
+		if err != nil {
+			log.Fatalf("Message Generate Error")
+		}
+		*/
+
+		//MintNFT(recipient, string(len(nftState)+1), randomMessage)
 		fmt.Println("Transaction added")
+		/*fmt.Println("NFT Rewarded")
+		fmt.Printf("NFT: %s", nftState[recipient])*/
 		fmt.Println(bc.transactionPool)
 		return true
 
@@ -294,3 +319,49 @@ func (ar *AmountRespone) MarshalJSON() ([]byte, error) {
 		Amount: ar.Amount,
 	})
 }
+
+/*
+// NFT
+type NFT struct {
+	tokenID      string
+	metadata     string
+	ownerAddress string
+}
+
+func MintNFT(recipientAddress string, tokenID string, metadata string) error {
+	if _, exists := nftState[tokenID]; exists {
+		return fmt.Errorf("TokenID %s already exists", tokenID)
+	}
+
+	nftState[tokenID] = &NFT{
+		tokenID:      tokenID,
+		metadata:     metadata,
+		ownerAddress: recipientAddress,
+	}
+	return nil
+}
+
+func TransferNFT(senderAddress string, recipientAddress string, tokenID string) error {
+	nft, exsists := nftState[tokenID]
+	if exsists {
+		return fmt.Errorf("tokenID %s does not exit", tokenID)
+	}
+	if nft.ownerAddress != senderAddress {
+		return fmt.Errorf("sender %s is not the owner of TokenID %s", senderAddress, tokenID)
+	}
+
+	nft.ownerAddress = recipientAddress
+
+	return nil
+}
+
+func GetNFTsByOwner(ownerAddress string) []*NFT {
+	ownedNFTs := []*NFT{}
+	for _, nft := range nftState {
+		if nft.ownerAddress == ownerAddress {
+			ownedNFTs = append(ownedNFTs, nft)
+		}
+	}
+	return ownedNFTs
+}
+*/

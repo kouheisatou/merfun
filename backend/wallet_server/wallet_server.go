@@ -12,6 +12,7 @@ import (
 	"strconv"
 
 	"merfun/block"
+	"merfun/project"
 
 	"merfun/utils"
 
@@ -19,6 +20,8 @@ import (
 )
 
 const tempDir = "./templates"
+
+var projectMap = make(map[string]*project.Project)
 
 type WalletServer struct {
 	port    uint16
@@ -60,6 +63,44 @@ func (ws *WalletServer) Wallet(w http.ResponseWriter, req *http.Request) {
 		myWallet := wallet.NewWallet()
 		m, _ := myWallet.MarshalJSON()
 		io.Writer.Write(w, m[:])
+	default:
+		w.WriteHeader(http.StatusBadRequest)
+		log.Println("Error: Invalid http method")
+	}
+}
+
+// Create Project API
+func (ws *WalletServer) CreateProject(w http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodPost:
+		dec := json.NewDecoder(req.Body)
+		var p project.ProjectRequest
+		err := dec.Decode(&p)
+		if err != nil {
+			log.Printf("Error: %v", err)
+			io.Writer.Write(w, utils.JsonStatus("failed"))
+			return
+		}
+
+		if !p.Validate() {
+			log.Printf("Error: missing field")
+			io.Writer.Write(w, utils.JsonStatus("failed"))
+			return
+		}
+
+		projectWallet := wallet.NewWallet()
+
+		num := string(len(projectMap) + 1)
+
+		newP := project.NewProject(num, *p.Name, projectWallet.BlockchainAddress(), *p.Description)
+
+		projectMap[num] = newP
+
+		fmt.Println(newP)
+
+		w.Header().Add("Content-Type", "application/json")
+		io.Writer.Write(w, utils.JsonStatus("success"))
+
 	default:
 		w.WriteHeader(http.StatusBadRequest)
 		log.Println("Error: Invalid http method")
@@ -179,6 +220,7 @@ func (ws *WalletServer) WalletAmount(w http.ResponseWriter, req *http.Request) {
 func (ws *WalletServer) Run() {
 	http.HandleFunc("/", ws.Index)
 	http.HandleFunc("/wallet", ws.Wallet)
+	http.HandleFunc("/project", ws.CreateProject)
 	http.HandleFunc("/wallet/amount", ws.WalletAmount)
 	http.HandleFunc("/transaction", ws.CreateTransaction)
 	log.Fatal(http.ListenAndServe("0.0.0.0:"+strconv.Itoa(int(ws.port)), nil))
