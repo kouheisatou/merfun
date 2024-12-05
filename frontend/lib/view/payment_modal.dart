@@ -112,6 +112,7 @@ class PaymentModal extends StatelessWidget {
                             text: "  購入手続きへ  ",
                             onPressed: () {
                               Navigator.pop(context);
+                              ticket.purchased = true;
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {

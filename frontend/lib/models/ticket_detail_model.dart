@@ -4,6 +4,7 @@ class TicketDetailModel {
   final String description;
   final String imageUrl;
   final int price;
+  bool purchased = false;
 
   TicketDetailModel({
     required this.id,

@@ -62,10 +62,13 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Image.network(
-                    ticket.imageUrl,
-                    fit: BoxFit.cover,
-                    height: 250,
+                  SizedBox(
+                    height: 310,
+                    width: double.infinity,
+                    child: Image.network(
+                      ticket.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -93,8 +96,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: MercariButtonRed(
-                      onPressed: () {
-                        showModalBottomSheet(
+                      onPressed: !ticket.purchased ? () async {
+                        await showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
                           shape: RoundedRectangleBorder(
@@ -104,7 +107,8 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                             return PaymentModal(ticket: ticket);
                           },
                         );
-                      },
+                        setState(() {});
+                      } : null,
                       text: "購入する",
                     ),
                   ),

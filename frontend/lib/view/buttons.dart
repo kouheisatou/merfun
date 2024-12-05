@@ -35,7 +35,7 @@ class MerucariButtonWhite extends StatelessWidget {
 // 購入手続きボタン (ElevatedButton)
 class MercariButtonRed extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const MercariButtonRed({
     required this.text,

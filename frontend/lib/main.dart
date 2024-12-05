@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.white, // アプリ全体のテーマカラーを白に設定
         scaffoldBackgroundColor: Colors.white, // 背景色を白に設定
