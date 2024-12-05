@@ -10,7 +10,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Persistent BottomNavigationBar',
       theme: ThemeData(
         primaryColor: Colors.white, // アプリ全体のテーマカラーを白に設定
         scaffoldBackgroundColor: Colors.white, // 背景色を白に設定
@@ -79,7 +78,11 @@ class _MainScreenState extends State<MainScreen> {
             Image.asset("images/bottom_tab_bar.jpeg"),
             Positioned(
               child: InkWell(
-                onTap: () {},
+                splashColor: Colors.red.withOpacity(0.3), // 波紋エフェクトの色
+                highlightColor: Colors.red.withOpacity(0.1),
+                onTap: () {
+
+                },
                 child: Container(
                   width: 60,
                   height: 60,

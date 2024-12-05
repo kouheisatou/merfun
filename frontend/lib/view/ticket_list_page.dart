@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/view/ticket_detail_page.dart';
 import 'package:frontend/models/ticket_card_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -59,33 +58,33 @@ class _TicketListPageState extends State<TicketListPage> {
               itemBuilder: (context, index) {
                 final ticketItem = _items[index]; // データクラスのインスタンスを取得
                 return InkWell(
+                  borderRadius: BorderRadius.circular(12), // 角丸
                   onTap: () {
                     Navigator.pushNamed(context, '/details', arguments: _items[index].id);
                   },
-                  child: Card(
-                    elevation: 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Expanded(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
                           child: Image.network(
                             ticketItem.imageUrl,
                             fit: BoxFit.cover,
                             height: 250,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            ticketItem.title, // データクラスからタイトルを取得
-                            style: TextStyle(fontSize: 12),
-                            textAlign: TextAlign.center,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          ticketItem.title, // データクラスからタイトルを取得
+                          style: TextStyle(fontSize: 12),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 );
               },

@@ -46,84 +46,86 @@ class PaymentModal extends StatelessWidget {
                 ],
               ),
             ),
-            Stack(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    SizedBox(
-                      width: double.infinity,
-                      child: Image.asset(
-                        "images/payment_base.png", // 画像パス
-                        fit: BoxFit.cover, // 画像を横幅に合わせる
+            Flexible(
+              child: Stack(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: Image.asset(
+                          "images/payment_base.png", // 画像パス
+                          fit: BoxFit.cover, // 画像を横幅に合わせる
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    child: Container(
+                      color: Colors.white,
+                      height: 85,
+                    ),
+                  ),
+                  Positioned(
+                    left: 15,
+                    top: 13,
+                    child: Container(
+                      color: Colors.white,
+                      child: SizedBox(
+                        width: 60,
+                        height: 60,
+                        child: Image.network(ticket.imageUrl),
                       ),
                     ),
-                  ],
-                ),
-                Positioned(
-                  child: Container(
-                    color: Colors.white,
-                    height: 85,
                   ),
-                ),
-                Positioned(
-                  left: 15,
-                  top: 13,
-                  child: Container(
-                    color: Colors.white,
-                    child: SizedBox(
-                      width: 60,
-                      height: 60,
-                      child: Image.network(ticket.imageUrl),
+                  Positioned(
+                    left: 87,
+                    top: 23,
+                    child: Text(ticket.title),
+                  ),
+                  Positioned(
+                    left: 89,
+                    top: 44,
+                    child: Text(
+                      "¥ ${ticket.price}",
+                      style: TextStyle(fontWeight: FontWeight.w700),
                     ),
                   ),
-                ),
-                Positioned(
-                  left: 87,
-                  top: 23,
-                  child: Text(ticket.title),
-                ),
-                Positioned(
-                  left: 89,
-                  top: 44,
-                  child: Text(
-                    "¥ ${ticket.price}",
-                    style: TextStyle(fontWeight: FontWeight.w700),
-                  ),
-                ),
-                Positioned(
-                  bottom: 10,
-                  left: 0,
-                  right: 0,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        MerucariButtonWhite(
-                          text: " 分割払いで購入 ",
-                          onPressed: () {},
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        MercariButtonRed(
-                          text: "  購入手続きへ  ",
-                          onPressed: () {
-                            Navigator.pop(context);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return ConfirmationDialog();
-                              },
-                            );
-                          },
-                        ),
-                      ],
+                  Positioned(
+                    bottom: 5,
+                    left: 0,
+                    right: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          MerucariButtonWhite(
+                            text: " 分割払いで購入 ",
+                            onPressed: () {},
+                          ),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          MercariButtonRed(
+                            text: "  購入手続きへ  ",
+                            onPressed: () {
+                              Navigator.pop(context);
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return ConfirmationDialog();
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         );
