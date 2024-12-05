@@ -1,0 +1,74 @@
+openapi: 3.0.0
+info:
+  title: Blockchain Transactions API
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /projects:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/_projects_get_200_response'
+          description: A list of pending transactions.
+      summary: Get all projects
+  /fund:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/_fund_post_request'
+        required: true
+      responses:
+        "200":
+          description: On success
+        "400":
+          description: On failure
+      summary: Send BTC from user wallet to project wallet
+components:
+  schemas:
+    Project:
+      example:
+        image_base64: image_base64
+        project_id: project_id
+        project_title: project_title
+      properties:
+        project_id:
+          type: string
+        project_title:
+          type: string
+        image_base64:
+          type: string
+      type: object
+    _projects_get_200_response:
+      example:
+        transactions:
+        - image_base64: image_base64
+          project_id: project_id
+          project_title: project_title
+        - image_base64: image_base64
+          project_id: project_id
+          project_title: project_title
+      properties:
+        transactions:
+          description: The list of projects.
+          items:
+            $ref: '#/components/schemas/Project'
+          type: array
+      type: object
+    _fund_post_request:
+      properties:
+        from:
+          description: User wallet address
+          type: string
+        to:
+          description: Project wallet address
+          type: string
+      required:
+      - from
+      - to
+      type: object
