@@ -12,7 +12,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Persistent BottomNavigationBar',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.white, // アプリ全体のテーマカラーを白に設定
+        scaffoldBackgroundColor: Colors.white, // 背景色を白に設定
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Colors.white, // 色のスキームでプライマリカラーを白に
+          secondary: Colors.black, // アクセントカラー
+        ),
       ),
       home: MainScreen(),
     );

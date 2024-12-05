@@ -60,7 +60,12 @@ class PaymentModal extends StatelessWidget {
                     ),
                   ],
                 ),
-                Positioned(child: Container(color: Colors.white,height: 85,),),
+                Positioned(
+                  child: Container(
+                    color: Colors.white,
+                    height: 85,
+                  ),
+                ),
                 Positioned(
                   left: 15,
                   top: 13,
@@ -81,7 +86,10 @@ class PaymentModal extends StatelessWidget {
                 Positioned(
                   left: 89,
                   top: 44,
-                  child: Text("¥ ${ticket.price}", style: TextStyle(fontWeight: FontWeight.w700),),
+                  child: Text(
+                    "¥ ${ticket.price}",
+                    style: TextStyle(fontWeight: FontWeight.w700),
+                  ),
                 ),
                 Positioned(
                   bottom: 10,
@@ -101,7 +109,15 @@ class PaymentModal extends StatelessWidget {
                         ),
                         CustomElevatedButton(
                           text: "  購入手続きへ  ",
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return ConfirmationDialog();
+                              },
+                            );
+                          },
                         ),
                       ],
                     ),
