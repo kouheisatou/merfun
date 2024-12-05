@@ -76,11 +76,14 @@ class _TicketListPageState extends State<TicketListPage> {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          ticketItem.title, // データクラスからタイトルを取得
-                          style: TextStyle(fontSize: 12),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        child: SizedBox(
+                          height: 40,
+                          child: Text(
+                            ticketItem.title,
+                            style: TextStyle(fontSize: 12),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ),
                     ],
