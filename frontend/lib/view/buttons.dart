@@ -1,7 +1,7 @@
-// 分割払いボタン (OutlinedButton)
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// メルカリ汎用ボタン（白）
 class MerucariButtonWhite extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
@@ -16,10 +16,10 @@ class MerucariButtonWhite extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
-        backgroundColor: Colors.white, // 背景色を白に設定
-        side: BorderSide(color: Colors.red), // 枠線の色
+        backgroundColor: Colors.white,
+        side: BorderSide(color: Colors.red),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0), // 角丸
+          borderRadius: BorderRadius.circular(8.0),
         ),
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),
@@ -32,7 +32,7 @@ class MerucariButtonWhite extends StatelessWidget {
   }
 }
 
-// 購入手続きボタン (ElevatedButton)
+// メルカリ汎用ボタン（赤）
 class MercariButtonRed extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
@@ -47,9 +47,9 @@ class MercariButtonRed extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.red, // 背景色
+        backgroundColor: Colors.red,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0), // 角丸
+          borderRadius: BorderRadius.circular(8.0),
         ),
         padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       ),

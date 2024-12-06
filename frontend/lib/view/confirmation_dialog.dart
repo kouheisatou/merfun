@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/view/ticket_result_page.dart';
 
+/// 購入確定ダイアログ
 class ConfirmationDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -13,25 +14,23 @@ class ConfirmationDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // イラスト画像
             Image.asset("images/thankyou.png"),
             SizedBox(height: 16),
-            // メッセージテキスト
             Text(
               "購入が完了しました",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
-            // 「NFTカードを見る」ボタン
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red, // ボタンの背景色
+                backgroundColor: Colors.red,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
               ),
               onPressed: () {
+                // 購入確定ダイアログに遷移
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => TicketResultPage(), fullscreenDialog: false),

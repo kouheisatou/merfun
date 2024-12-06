@@ -45,9 +45,9 @@ class _TicketListPageState extends State<TicketListPage> {
               ),
               itemCount: tickets.length,
               itemBuilder: (context, index) {
-                final ticketItem = tickets[index]; // データクラスのインスタンスを取得
+                final ticketItem = tickets[index];
                 return InkWell(
-                  borderRadius: BorderRadius.circular(12), // 角丸
+                  borderRadius: BorderRadius.circular(12),
                   onTap: () {
                     Navigator.pushNamed(context, '/details', arguments: tickets[index]);
                   },
@@ -85,14 +85,14 @@ class _TicketListPageState extends State<TicketListPage> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: Colors.black.withAlpha(90),
-                            borderRadius: BorderRadius.circular(8.0), // 角丸の設定
+                            borderRadius: BorderRadius.circular(8.0),
                           ),
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(6, 2, 6, 2),
                             child: Text(
                               "¥${ticketItem.price.toString()}",
                               style: TextStyle(
-                                fontWeight: FontWeight.bold, // 太字に設定
+                                fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 fontSize: 10,
                               ),

@@ -6,9 +6,10 @@ import 'package:frontend/view/payment_modal.dart';
 import 'package:http/http.dart' as http;
 import 'package:openapi/api.dart';
 
+/// チケット詳細ページ
 class TicketDetailPage extends StatefulWidget {
   Ticket ticket;
-  bool disableButton = false;
+  bool purchased = false;
 
   TicketDetailPage({required this.ticket, super.key});
 
@@ -67,8 +68,9 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: MercariButtonRed(
-                onPressed: !widget.disableButton
+                onPressed: !widget.purchased
                     ? () async {
+                        // 購入モーダルの表示
                         await showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
@@ -79,7 +81,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                             return PaymentModal(ticket: widget.ticket);
                           },
                         );
-                        widget.disableButton = true;
+                        widget.purchased = true;
                         setState(() {});
                       }
                     : null,

@@ -8,6 +8,7 @@ import 'package:openapi/api.dart';
 import 'confirmation_dialog.dart';
 import 'buttons.dart';
 
+/// 購入確定ダイアログ
 class PaymentModal extends StatefulWidget {
   Ticket ticket;
 
@@ -18,14 +19,20 @@ class PaymentModal extends StatefulWidget {
 }
 
 class _PaymentModalState extends State<PaymentModal> {
+
+  // 読み込み中にプログレスバーを表示するためのフラグ
   bool isLoading = false;
 
+  // 送金を実行する
   Future<void> send() async {
     setState(() {
       isLoading = true;
     });
 
+    // walletが生成されていない場合は、新規walletを生成
     myWallet ??= await walletServerApi.walletPost();
+
+    // 送金を実行
     var resp = await walletServerApi.transactionPost(
       TransactionPostRequest(
         senderPrivateKey: widget.ticket.ownerAddress,
@@ -35,11 +42,18 @@ class _PaymentModalState extends State<PaymentModal> {
         value: widget.ticket.price.toString(),
       ),
     );
+
+    // 読み込みUIをデモするための待機
     await Future.delayed(Duration(seconds: 1));
+
     setState(() {
       isLoading = false;
     });
+
+    // 購入確定モーダル閉じる
     Navigator.pop(context);
+
+    // 購入確認ダイアログを表示
     showDialog(
       context: context,
       builder: (BuildContext context) {

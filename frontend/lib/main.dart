@@ -13,10 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white, // アプリ全体のテーマカラーを白に設定
-        scaffoldBackgroundColor: Colors.white, // 背景色を白に設定
+        primaryColor: Colors.white,
+        scaffoldBackgroundColor: Colors.white,
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Colors.white, // 色のスキームでプライマリカラーを白に
+          primary: Colors.white,
           secondary: Colors.red,
         ),
       ),
@@ -49,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _onTabTapped(int index) {
     if (index == _currentIndex) {
-      // 現在のタブのナビゲーターでポップ
+
       _navigatorKeys[index].currentState?.popUntil((route) => route.isFirst);
     } else {
       setState(() {
@@ -80,11 +80,9 @@ class _MainScreenState extends State<MainScreen> {
             Image.asset("images/bottom_tab_bar.jpeg"),
             Positioned(
               child: InkWell(
-                splashColor: Colors.red.withOpacity(0.3), // 波紋エフェクトの色
+                splashColor: Colors.red.withOpacity(0.3),
                 highlightColor: Colors.red.withOpacity(0.1),
-                onTap: () {
-
-                },
+                onTap: () {},
                 child: Container(
                   width: 60,
                   height: 60,

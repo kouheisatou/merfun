@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+/// 購入したチケットの確認画面
 class TicketResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

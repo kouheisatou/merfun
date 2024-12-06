@@ -1,4 +1,7 @@
 import 'package:openapi/api.dart';
 
+// walletサーバAPIインスタンス
 final walletServerApi = DefaultApi(ApiClient(basePath: "http://localhost:8080"));
-Wallet? myWallet = null;
+
+// 自分のwallet
+Wallet? myWallet;
