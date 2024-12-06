@@ -1,7 +1,8 @@
 import 'dart:convert';
 
+import 'package:blockchain_server_api/api.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/models/ticket_detail_model.dart';
+import 'package:frontend/shared_resource.dart';
 import 'package:http/http.dart' as http;
 
 class TicketListPage extends StatefulWidget {
@@ -10,7 +11,7 @@ class TicketListPage extends StatefulWidget {
 }
 
 class _TicketListPageState extends State<TicketListPage> {
-  List<TicketDetailModel> _items = [];
+  List<Ticket> tickets = [];
   bool _isLoading = true;
 
   @override
@@ -20,22 +21,7 @@ class _TicketListPageState extends State<TicketListPage> {
   }
 
   Future<void> fetchTickets() async {
-    // ダミーAPIからデータを取得
-    final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/photos?_limit=8'));
-
-    if (response.statusCode == 200) {
-      // final data = json.decode(response.body);
-      final data = json.decode('[{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""}]');
-      setState(() {
-        _items = (data as List).map((item) => TicketDetailModel.fromJson(item)).toList();
-        _isLoading = false;
-      });
-    } else {
-      setState(() {
-        _isLoading = false;
-      });
-      throw Exception('データの取得に失敗しました');
-    }
+    tickets = (await blockchain_server_api.ticketAllGet()) ?? [];
   }
 
   @override
@@ -54,13 +40,13 @@ class _TicketListPageState extends State<TicketListPage> {
                 mainAxisSpacing: 8.0,
                 childAspectRatio: 1,
               ),
-              itemCount: _items.length,
+              itemCount: tickets.length,
               itemBuilder: (context, index) {
-                final ticketItem = _items[index]; // データクラスのインスタンスを取得
+                final ticketItem = tickets[index]; // データクラスのインスタンスを取得
                 return InkWell(
                   borderRadius: BorderRadius.circular(12), // 角丸
                   onTap: () {
-                    Navigator.pushNamed(context, '/details', arguments: _items[index]);
+                    Navigator.pushNamed(context, '/details', arguments: tickets[index]);
                   },
                   child: Stack(
                     children: [
@@ -81,7 +67,7 @@ class _TicketListPageState extends State<TicketListPage> {
                             child: SizedBox(
                               height: 40,
                               child: Text(
-                                ticketItem.title,
+                                ticketItem.name,
                                 style: TextStyle(fontSize: 12),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
