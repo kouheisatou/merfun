@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/view/ticket_result_page.dart';
 
 class ConfirmationDialog extends StatelessWidget {
   @override
@@ -31,17 +32,19 @@ class ConfirmationDialog extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
               ),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TicketResultPage(), fullscreenDialog: false),
+                );
               },
               child: Text(
-                "他のチケットも見る",
+                "獲得したチケットを見る",
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
             SizedBox(height: 8),
             TextButton(
-              onPressed: () {
-              },
+              onPressed: () {},
               child: Text(
                 "商品をシェアする",
                 style: TextStyle(fontSize: 14, color: Colors.red),

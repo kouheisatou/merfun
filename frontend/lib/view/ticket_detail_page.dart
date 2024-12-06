@@ -81,7 +81,6 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                         );
                         widget.disableButton = true;
                         setState(() {});
-                        Navigator.pop(context);
                       }
                     : null,
                 text: "購入する",
