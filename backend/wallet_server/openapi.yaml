@@ -75,7 +75,7 @@ components:
       type: object
       properties:
         ticket_id:
-          type: string
+          type: int
         name:
           type: string
         description:
@@ -83,7 +83,7 @@ components:
         owner_address:
           type: string
         price:
-          type: string
+          type: int
         image_url:
           type: string
       required:

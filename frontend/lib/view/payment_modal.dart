@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:openapi/api.dart';
 
@@ -82,7 +84,7 @@ class PaymentModal extends StatelessWidget {
                   Positioned(
                     left: 87,
                     top: 23,
-                    child: Text(ticket.name),
+                    child: Text(utf8.decode(base64Decode(ticket.name))),
                   ),
                   Positioned(
                     left: 89,

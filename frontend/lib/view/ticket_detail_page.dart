@@ -44,7 +44,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                widget.ticket.name,
+                utf8.decode(base64Decode(widget.ticket.name)),
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -59,7 +59,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Text(
-                widget.ticket.description,
+                utf8.decode(base64Decode(widget.ticket.description)),
                 style: TextStyle(fontSize: 14),
               ),
             ),

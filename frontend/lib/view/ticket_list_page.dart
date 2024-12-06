@@ -22,6 +22,9 @@ class _TicketListPageState extends State<TicketListPage> {
 
   Future<void> fetchTickets() async {
     tickets = (await wallet_server_api.ticketAllGet()) ?? [];
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -58,7 +61,7 @@ class _TicketListPageState extends State<TicketListPage> {
                               borderRadius: BorderRadius.circular(12),
                               child: Image.network(
                                 ticketItem.imageUrl,
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
@@ -67,7 +70,7 @@ class _TicketListPageState extends State<TicketListPage> {
                             child: SizedBox(
                               height: 40,
                               child: Text(
-                                ticketItem.name,
+                                utf8.decode(base64Decode(ticketItem.name)),
                                 style: TextStyle(fontSize: 12),
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
