@@ -220,8 +220,23 @@ func (ws *WalletServer) CreateTransaction(w http.ResponseWriter, req *http.Reque
 				}
 			}
 			ticketMap[*id].OwnerAddress = *bt.SenderBlockChainAddress
-			io.Writer.Write(w, utils.JsonStatus("success"))
+
+			getResp, err := http.Get(ws.Gateway() + "/mine/start")
+			if err != nil {
+				log.Printf("Error while making GET request: %v", err)
+				w.Write(utils.JsonStatus("Failed"))
+				return
+			}
+			defer getResp.Body.Close()
+
+			if getResp.StatusCode == http.StatusOK { // 200
+				w.Write(utils.JsonStatus("success"))
+			} else {
+				w.Write(utils.JsonStatus("failed"))
+			}
 			return
+			//io.Writer.Write(w, utils.JsonStatus("success"))
+			//return
 		} else {
 
 			io.Writer.Write(w, utils.JsonStatus("failed"))
