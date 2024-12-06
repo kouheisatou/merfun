@@ -8,7 +8,10 @@ class TicketResultPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.all(2)),
+            Container(
+              color: Colors.black,
+              height: 2,
+            ),
             Image.asset(
               "images/ticket_sample.png",
               fit: BoxFit.fill,
