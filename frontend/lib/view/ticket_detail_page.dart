@@ -1,11 +1,10 @@
 import 'dart:convert';
-
-import 'package:blockchain_server_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/shared_resource.dart';
 import 'package:frontend/view/buttons.dart';
 import 'package:frontend/view/payment_modal.dart';
 import 'package:http/http.dart' as http;
+import 'package:openapi/api.dart';
 
 class TicketDetailPage extends StatefulWidget {
   Ticket ticket;
@@ -18,7 +17,6 @@ class TicketDetailPage extends StatefulWidget {
 }
 
 class _TicketDetailPageState extends State<TicketDetailPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

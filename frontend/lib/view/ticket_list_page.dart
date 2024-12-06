@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:blockchain_server_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/shared_resource.dart';
 import 'package:http/http.dart' as http;
+import 'package:openapi/api.dart';
 
 class TicketListPage extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _TicketListPageState extends State<TicketListPage> {
   }
 
   Future<void> fetchTickets() async {
-    tickets = (await blockchain_server_api.ticketAllGet()) ?? [];
+    tickets = (await wallet_server_api.ticketAllGet()) ?? [];
   }
 
   @override
