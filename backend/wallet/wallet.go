@@ -37,7 +37,7 @@ type TransactionRequest struct {
 }
 
 func NewWallet() *Wallet {
-	//https://en.bitcoin.it/wiki/Technical_background_of_version_1_Bitcoin_addresses
+	// Reference to create a Address : https://en.bitcoin.it/wiki/Technical_background_of_version_1_Bitcoin_addresses
 	// Create Publickey and Privatekey
 	w := new(Wallet)
 	privateKey, _ := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
@@ -93,6 +93,7 @@ func NewTransaction(privateKey *ecdsa.PrivateKey, publicKey *ecdsa.PublicKey, se
 		value:                      value}
 }
 
+// Using Sign to generate a Signature
 func (t *Transaction) GenerateSignature() *utils.Signature {
 	m, _ := json.Marshal(t)
 	h := sha256.Sum256([]byte(m))

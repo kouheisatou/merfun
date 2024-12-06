@@ -94,7 +94,13 @@ func (ws *WalletServer) Index(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// Create Wallet Info API
+/*
+	Create Wallet Info API
+
+1. Create a Wallet
+2. Wallet includes Publickey, Privatekey, Blockchain Address
+3. Response Wallet
+*/
 func (ws *WalletServer) Wallet(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodPost:
@@ -111,10 +117,9 @@ func (ws *WalletServer) Wallet(w http.ResponseWriter, req *http.Request) {
 /*
 Create Ticket API
 1. Decode Request: json -> go
-2. Input Validationg
-3. Create a Wallet for Project (wallet include publickey, privatekey, address)
-4. Generate a Project, append to ProjectMap
-5. Response Project Wallet
+2. Input Validation
+3. Generate a Ticket, append to ticketMap
+5. Ticket Response
 */
 func (ws *WalletServer) CreateTicket(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
@@ -254,10 +259,10 @@ func encodeBase64(input string) string {
 }
 
 /*
-	Get Project List
+	Get Ticket List
 
-1. Loop ProjectMap
-2. Response Slice of Project which just include Name, Description, ProjectAddress, CurrentAmount
+1. Loop ticketMap
+2. Response Slice of ticket which just include Ticket ID, Name, Description, Owner Address, Price, Images URL
 */
 func (ws *WalletServer) GetAllTicket(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
@@ -296,6 +301,7 @@ func (ws *WalletServer) GetAllTicket(w http.ResponseWriter, req *http.Request) {
 
 }
 
+// Get Amount
 func (ws *WalletServer) WalletAmount(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodGet:

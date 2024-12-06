@@ -122,6 +122,11 @@ func (bc *Blockchain) CreateTransaction(sender string, recipient string, value f
 
 }
 
+/*
+Handle Transaction
+1. Use Signiture to confirm Signature
+2. If Authentication Passed -> put transaction to Transaction Pool
+*/
 func (bc *Blockchain) AddTransaction(sender string, recipient string, value float32, senderPublickey *ecdsa.PublicKey, s *utils.Signature) bool {
 	t := NewTransaction(sender, recipient, value)
 
@@ -199,6 +204,12 @@ func (bc *Blockchain) ValidProof(nonce int, previousHash [32]byte, transactions 
 
 }
 
+/*
+Proof Block
+1. Get transactions in Transaction Pool
+2. Get Last Block Hash
+3. Try to caculate nonce
+*/
 func (bc *Blockchain) ProofOfWork() int {
 	transactions := bc.CopyTransactionPool()
 	previousHash := bc.LastBlock().Hash()
@@ -209,6 +220,7 @@ func (bc *Blockchain) ProofOfWork() int {
 	return nonce
 }
 
+// Verify Siganature
 func (bc *Blockchain) VerifyTransactionSignature(senderPublickey *ecdsa.PublicKey, s *utils.Signature, t *Transaction) bool {
 	m, _ := json.Marshal(t)
 	h := sha256.Sum256([]byte(m))
