@@ -64,4 +64,12 @@ Endpoint
 http://localhost:<YOUR BLOCKCHAIN PORT>/transactions
 ```
 
-
+# Frontend
+## Used Libraries
+- Flutter(Dart)
+- OpenAPI
+## How to build
+```shell
+flutter pub get
+flutter run
+```
