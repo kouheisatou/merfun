@@ -62,30 +62,55 @@ class _TicketListPageState extends State<TicketListPage> {
                   onTap: () {
                     Navigator.pushNamed(context, '/details', arguments: _items[index]);
                   },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                  child: Stack(
                     children: [
-                      Expanded(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.network(
-                            ticketItem.imageUrl,
-                            fit: BoxFit.fill,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                ticketItem.imageUrl,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              height: 40,
+                              child: Text(
+                                ticketItem.title,
+                                style: TextStyle(fontSize: 12),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Positioned(
+                        left: 8,
+                        top: 100,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withAlpha(90),
+                            borderRadius: BorderRadius.circular(8.0), // 角丸の設定
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(6, 2, 6, 2),
+                            child: Text(
+                              "¥${ticketItem.price.toString()}",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold, // 太字に設定
+                                color: Colors.white,
+                                fontSize: 10,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 40,
-                          child: Text(
-                            ticketItem.title,
-                            style: TextStyle(fontSize: 12),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
+                      )
                     ],
                   ),
                 );
