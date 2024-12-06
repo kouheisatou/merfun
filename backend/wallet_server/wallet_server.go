@@ -257,6 +257,7 @@ func (ws *WalletServer) GetAllTicket(w http.ResponseWriter, req *http.Request) {
 				Description:  &tic.Description,
 				OwnerAddress: &tic.OwnerAddress,
 				Price:        &tic.Price,
+				ImageURL:     &tic.ImageURL,
 			})
 		}
 		w.Header().Add("Content-Type", "application/json")
