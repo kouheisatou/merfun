@@ -12,7 +12,7 @@ import (
 	"strconv"
 
 	"merfun/block"
-	"merfun/project"
+	"merfun/ticket"
 
 	"merfun/utils"
 
@@ -21,11 +21,15 @@ import (
 
 const tempDir = "./templates"
 
-var projectMap = make(map[string]*project.Project)
+var ticketMap = make(map[int]*ticket.NFTTicket)
 
 type WalletServer struct {
 	port    uint16
 	gateway string
+}
+
+func init() {
+
 }
 
 func NewWalletServer(port uint16, gateway string) *WalletServer {
@@ -69,39 +73,50 @@ func (ws *WalletServer) Wallet(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-// Create Project API
-func (ws *WalletServer) CreateProject(w http.ResponseWriter, req *http.Request) {
+/*
+Create Ticket API
+1. Decode Request: json -> go
+2. Input Validationg
+3. Create a Wallet for Project (wallet include publickey, privatekey, address)
+4. Generate a Project, append to ProjectMap
+5. Response Project Wallet
+*/
+func (ws *WalletServer) CreateTicket(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodPost:
 		dec := json.NewDecoder(req.Body)
-		var p project.ProjectRequest
-		err := dec.Decode(&p)
+		var tr ticket.TicketRequest
+		err := dec.Decode(&tr)
 		if err != nil {
 			log.Printf("Error: %v", err)
 			io.Writer.Write(w, utils.JsonStatus("failed"))
 			return
 		}
 
-		if !p.Validate() {
+		if !tr.Validate() {
 			log.Printf("Error: missing field")
 			io.Writer.Write(w, utils.JsonStatus("failed"))
 			return
 		}
 
-		projectWallet := wallet.NewWallet()
+		num := len(ticketMap) + 1
 
-		num := string(len(projectMap) + 1)
+		price, _ := strconv.Atoi(*tr.Price)
 
-		newP := project.NewProject(num, *p.Name, projectWallet.BlockchainAddress(), *p.Description)
+		newTicket := ticket.NewNFTTicket(num, *tr.Name, *tr.OwnerAddress, *tr.Description, price)
 
-		projectMap[num] = newP
+		ticketMap[num] = newTicket
 
-		fmt.Println(newP)
+		fmt.Printf("newT: %v", newTicket)
 
-		m, _ := projectWallet.MarshalJSON()
+		cr := ticket.CreationResponse{
+			TicketID: &num,
+		}
+
+		m, _ := json.Marshal(cr)
 
 		w.Header().Add("Content-Type", "application/json")
-		io.Writer.Write(w, m[:])
+		io.Writer.Write(w, m)
 
 	default:
 		w.WriteHeader(http.StatusBadRequest)
@@ -109,7 +124,12 @@ func (ws *WalletServer) CreateProject(w http.ResponseWriter, req *http.Request) 
 	}
 }
 
-// Create Transaction API
+/*
+Create Transaction API:
+1. Require PublicKey, PrivateKey to generate a signature
+2. Generate a request include Sender Address, Recipient Address, Signature, Transfer Amount, Sender Publickey
+3. if Authentication(Signature confirm) passed , resp -> success | else -> failed
+*/
 func (ws *WalletServer) CreateTransaction(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodPost:
@@ -157,6 +177,13 @@ func (ws *WalletServer) CreateTransaction(w http.ResponseWriter, req *http.Reque
 
 		resp, _ := http.Post(ws.Gateway()+"/transactions", "application/json", buf)
 		if resp.StatusCode == 201 {
+			id := new(int)
+			for _, ticket := range ticketMap {
+				if ticket.OwnerAddress == *bt.RecipientBlockChainAddress {
+					*id = ticket.TicketID
+				}
+			}
+			ticketMap[*id].OwnerAddress = *bt.SenderBlockChainAddress
 			io.Writer.Write(w, utils.JsonStatus("success"))
 			return
 		} else {
@@ -170,28 +197,35 @@ func (ws *WalletServer) CreateTransaction(w http.ResponseWriter, req *http.Reque
 	}
 }
 
-// Get Project List
-func (ws *WalletServer) GetAllProject(w http.ResponseWriter, req *http.Request) {
+/*
+	Get Project List
+
+1. Loop ProjectMap
+2. Response Slice of Project which just include Name, Description, ProjectAddress, CurrentAmount
+*/
+func (ws *WalletServer) GetAllTicket(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodGet:
-		presp := make([]project.ProjectResponse, 0, len(projectMap))
+		tresp := make([]ticket.TicketResponse, 0, len(ticketMap))
 
-		if len(projectMap) == 0 {
+		if len(ticketMap) == 0 {
 			log.Println("Error: No project exist")
 			io.Writer.Write(w, utils.JsonStatus("failed"))
 		}
 
-		for _, proj := range projectMap {
+		for _, tic := range ticketMap {
 
-			presp = append(presp, project.ProjectResponse{
-				Name:           &proj.Name,
-				Description:    &proj.Description,
-				ProjectAddress: &proj.CreatorAddress,
+			tresp = append(tresp, ticket.TicketResponse{
+				TicketId:     &tic.TicketID,
+				Name:         &tic.Name,
+				Description:  &tic.Description,
+				OwnerAddress: &tic.OwnerAddress,
+				Price:        &tic.Price,
 			})
 		}
 		w.Header().Add("Content-Type", "application/json")
 
-		m, _ := json.Marshal(presp)
+		m, _ := json.Marshal(tresp)
 
 		io.Writer.Write(w, m[:])
 
@@ -254,8 +288,8 @@ func (ws *WalletServer) WalletAmount(w http.ResponseWriter, req *http.Request) {
 func (ws *WalletServer) Run() {
 	http.HandleFunc("/", ws.Index)
 	http.HandleFunc("/wallet", ws.Wallet)
-	http.HandleFunc("/project", ws.CreateProject)
-	http.HandleFunc("/project/all", ws.GetAllProject)
+	http.HandleFunc("/ticket", ws.CreateTicket)
+	http.HandleFunc("/ticket/all", ws.GetAllTicket)
 	http.HandleFunc("/wallet/amount", ws.WalletAmount)
 	http.HandleFunc("/transaction", ws.CreateTransaction)
 	log.Fatal(http.ListenAndServe("0.0.0.0:"+strconv.Itoa(int(ws.port)), nil))
