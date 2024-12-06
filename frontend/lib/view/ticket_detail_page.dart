@@ -7,21 +7,21 @@ import 'package:frontend/view/payment_modal.dart';
 import 'package:http/http.dart' as http;
 
 class TicketDetailPage extends StatefulWidget {
-  String ticketId;
+  TicketDetailModel ticket;
 
-  TicketDetailPage({required this.ticketId, super.key});
+  TicketDetailPage({required this.ticket, super.key});
 
   @override
   _TicketDetailPageState createState() => _TicketDetailPageState();
 }
 
 class _TicketDetailPageState extends State<TicketDetailPage> {
-  late Future<TicketDetailModel> ticket;
+  // late Future<TicketDetailModel> ticket;
 
   @override
   void initState() {
     super.initState();
-    ticket = fetchTicketDetail();
+    // ticket = fetchTicketDetail();
   }
 
   Future<TicketDetailModel> fetchTicketDetail() async {
@@ -41,7 +41,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("詳細"),
+        title: Text("詳細", style: TextStyle(fontSize: 15)),
         leading: IconButton(
           icon: Icon(Icons.close),
           onPressed: () {
@@ -49,54 +49,46 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
           },
         ),
       ),
-      body: FutureBuilder<TicketDetailModel>(
-        future: ticket,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text("エラーが発生しました"));
-          } else if (snapshot.hasData) {
-            final ticket = snapshot.data!;
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(
-                    height: 310,
-                    width: double.infinity,
-                    child: Image.network(
-                      ticket.imageUrl,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      ticket.title,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text(
-                      "商品の説明",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      ticket.description,
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                  SizedBox(height: 24),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: MercariButtonRed(
-                      onPressed: !ticket.purchased ? () async {
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(
+              height: 310,
+              width: double.infinity,
+              child: Image.network(
+                widget.ticket.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                widget.ticket.title,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                "商品の説明",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                widget.ticket.description,
+                style: TextStyle(fontSize: 14),
+              ),
+            ),
+            SizedBox(height: 24),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: MercariButtonRed(
+                onPressed: !widget.ticket.purchased
+                    ? () async {
                         await showModalBottomSheet(
                           context: context,
                           isScrollControlled: true,
@@ -104,21 +96,17 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                             borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
                           ),
                           builder: (BuildContext context) {
-                            return PaymentModal(ticket: ticket);
+                            return PaymentModal(ticket: widget.ticket);
                           },
                         );
                         setState(() {});
-                      } : null,
-                      text: "購入する",
-                    ),
-                  ),
-                ],
+                      }
+                    : null,
+                text: "購入する",
               ),
-            );
-          } else {
-            return Center(child: Text("データがありません"));
-          }
-        },
+            ),
+          ],
+        ),
       ),
     );
   }

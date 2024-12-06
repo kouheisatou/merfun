@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/models/ticket_card_model.dart';
+import 'package:frontend/models/ticket_detail_model.dart';
 import 'package:http/http.dart' as http;
 
 class TicketListPage extends StatefulWidget {
@@ -10,7 +10,7 @@ class TicketListPage extends StatefulWidget {
 }
 
 class _TicketListPageState extends State<TicketListPage> {
-  List<TicketCardModel> _items = [];
+  List<TicketDetailModel> _items = [];
   bool _isLoading = true;
 
   @override
@@ -27,7 +27,7 @@ class _TicketListPageState extends State<TicketListPage> {
       // final data = json.decode(response.body);
       final data = json.decode('[{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""},{"id": "id1", "title": "title", "imageUrl": ""}]');
       setState(() {
-        _items = (data as List).map((item) => TicketCardModel.fromJson(item)).toList();
+        _items = (data as List).map((item) => TicketDetailModel.fromJson(item)).toList();
         _isLoading = false;
       });
     } else {
@@ -42,7 +42,7 @@ class _TicketListPageState extends State<TicketListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("メルカリ ファン"),
+        title: Text("メルカリ チケット", style: TextStyle(fontSize: 15)),
       ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
@@ -60,7 +60,7 @@ class _TicketListPageState extends State<TicketListPage> {
                 return InkWell(
                   borderRadius: BorderRadius.circular(12), // 角丸
                   onTap: () {
-                    Navigator.pushNamed(context, '/details', arguments: _items[index].id);
+                    Navigator.pushNamed(context, '/details', arguments: _items[index]);
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/models/ticket_detail_model.dart';
 import 'package:frontend/view/ticket_detail_page.dart';
 import 'package:frontend/view/ticket_list_page.dart';
 
@@ -124,7 +125,7 @@ class TabNavigator extends StatelessWidget {
         Widget page;
         switch (settings.name) {
           case '/details':
-            page = TicketDetailPage(ticketId: settings.arguments as String);
+            page = TicketDetailPage(ticket: settings.arguments as TicketDetailModel);
             break;
           default:
             page = TicketListPage();
