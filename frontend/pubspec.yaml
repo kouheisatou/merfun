@@ -35,6 +35,10 @@ dependencies:
   freezed: ^2.5.7
   freezed_annotation: ^2.4.4
   http: ^1.2.2
+  blockchain_server_api:
+    path: "plugins/blockchain_server_api"
+  wallet_server_api:
+    path: "plugins/wallet_server_api"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
