@@ -4,7 +4,7 @@ info:
   version: 1.0.0
 paths:
   /wallet:
-    get:
+    post:
       summary: create new user wallet
       responses:
         '200':
@@ -44,8 +44,18 @@ paths:
           description: send success
         '400':
           description: send fail
-
-
+  /ticket/all:
+    get:
+      summary: get all tickets
+      responses:
+        '200':
+          description: tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
 components:
   schemas:
     Wallet:
@@ -61,3 +71,25 @@ components:
         - private_key
         - public_key
         - blockchain_address
+    Ticket:
+      type: object
+      properties:
+        ticket_id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        owner_address:
+          type: string
+        price:
+          type: string
+        image_url:
+          type: string
+      required:
+        - ticket_id
+        - name
+        - description
+        - owner_address
+        - price
+        - image_url

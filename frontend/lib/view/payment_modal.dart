@@ -1,5 +1,5 @@
-import 'package:blockchain_server_api/api.dart';
 import 'package:flutter/material.dart';
+import 'package:openapi/api.dart';
 
 import 'confirmation_dialog.dart';
 import 'buttons.dart';
