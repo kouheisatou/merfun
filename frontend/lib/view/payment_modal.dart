@@ -20,6 +20,34 @@ class PaymentModal extends StatefulWidget {
 class _PaymentModalState extends State<PaymentModal> {
   bool isLoading = false;
 
+  Future<void> send() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    myWallet ??= await walletServerApi.walletPost();
+    var resp = await walletServerApi.transactionPost(
+      TransactionPostRequest(
+        senderPrivateKey: widget.ticket.ownerAddress,
+        senderBlockchainAddress: myWallet!.blockchainAddress,
+        recipientBlockchainAddress: widget.ticket.ownerAddress,
+        senderPublicKey: myWallet!.publicKey,
+        value: widget.ticket.price.toString(),
+      ),
+    );
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {
+      isLoading = false;
+    });
+    Navigator.pop(context);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmationDialog();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
@@ -79,10 +107,6 @@ class _PaymentModalState extends State<PaymentModal> {
                     ),
                   ),
                   Positioned(
-                      child: Center(
-                    child: isLoading ? CircularProgressIndicator() : null,
-                  )),
-                  Positioned(
                     left: 15,
                     top: 13,
                     child: Container(
@@ -131,35 +155,7 @@ class _PaymentModalState extends State<PaymentModal> {
                               ),
                               padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                             ),
-                            onPressed: !isLoading
-                                ? () async {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-
-                                    myWallet ??= await walletServerApi.walletPost();
-                                    var resp = await walletServerApi.transactionPost(
-                                      TransactionPostRequest(
-                                        senderPrivateKey: widget.ticket.ownerAddress,
-                                        senderBlockchainAddress: myWallet!.blockchainAddress,
-                                        recipientBlockchainAddress: widget.ticket.ownerAddress,
-                                        senderPublicKey: myWallet!.publicKey,
-                                        value: widget.ticket.price.toString(),
-                                      ),
-                                    );
-                                    sleep(Duration(seconds: 1));
-                                    setState(() {
-                                      isLoading = false;
-                                    });
-                                    Navigator.pop(context);
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext context) {
-                                        return ConfirmationDialog();
-                                      },
-                                    );
-                                  }
-                                : null,
+                            onPressed: !isLoading ? send : null,
                             child: Text(
                               "  購入手続きへ  ",
                               style: TextStyle(color: Colors.white, fontSize: 16),
@@ -167,6 +163,11 @@ class _PaymentModalState extends State<PaymentModal> {
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  Positioned(
+                    child: Center(
+                      child: isLoading ? CircularProgressIndicator(color: Colors.red,) : null,
                     ),
                   ),
                 ],
