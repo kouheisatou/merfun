@@ -8,8 +8,10 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"path"
 	"strconv"
+	"time"
 
 	"merfun/block"
 	"merfun/ticket"
@@ -22,14 +24,46 @@ import (
 const tempDir = "./templates"
 
 var ticketMap = make(map[int]*ticket.NFTTicket)
+var dummyWallet = make([]*wallet.Wallet, 5)
 
 type WalletServer struct {
 	port    uint16
 	gateway string
 }
 
-func init() {
+func (ws *WalletServer) init() {
+	err := loadTicketsToMap("dummy.json")
+	if err != nil {
+		fmt.Println("Failed to load tickets:", err)
+		return
+	}
+	for i := 1; i <= 5; i++ {
+		wallet := wallet.NewWallet()
+		dummyWallet = append(dummyWallet, wallet)
+		ticketMap[i].OwnerAddress = wallet.BlockchainAddress()
+		ticketMap[i].TimeStamp = time.Now().UnixNano()
+	}
+	fmt.Println(*ticketMap[1])
 
+}
+
+func loadTicketsToMap(filePath string) error {
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return err
+	}
+
+	var tickets []ticket.NFTTicket
+	err = json.Unmarshal(data, &tickets)
+	if err != nil {
+		return err
+	}
+
+	for i := range tickets {
+		ticketMap[tickets[i].TicketID] = &tickets[i]
+	}
+
+	return nil
 }
 
 func NewWalletServer(port uint16, gateway string) *WalletServer {
@@ -103,7 +137,9 @@ func (ws *WalletServer) CreateTicket(w http.ResponseWriter, req *http.Request) {
 
 		price, _ := strconv.Atoi(*tr.Price)
 
-		newTicket := ticket.NewNFTTicket(num, *tr.Name, *tr.OwnerAddress, *tr.Description, price)
+		url := ""
+
+		newTicket := ticket.NewNFTTicket(num, *tr.Name, *tr.OwnerAddress, *tr.Description, price, url)
 
 		ticketMap[num] = newTicket
 
@@ -286,6 +322,7 @@ func (ws *WalletServer) WalletAmount(w http.ResponseWriter, req *http.Request) {
 }
 
 func (ws *WalletServer) Run() {
+	ws.init()
 	http.HandleFunc("/", ws.Index)
 	http.HandleFunc("/wallet", ws.Wallet)
 	http.HandleFunc("/ticket", ws.CreateTicket)

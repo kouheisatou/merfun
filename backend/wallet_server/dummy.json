@@ -1,0 +1,48 @@
+[
+    {
+        "ticket_id": 1,
+        "name": "Riot Games ONE 2024",
+        "description": "1年を締めくくる総合イベントを今年も開催!VALORANT,League Of Legendsから様々なストリーマーやプロプレイヤーが集結。世界最高峰の熱狂と興奮を体感せよ。",
+        "price": 3000,
+        "owner_address": "",
+        "time_stamp": 1672508500,
+        "image_url": "https://image.pia.jp/images/202411/202411120006_ex.jpg"
+    },
+    {
+        "ticket_id": 2,
+        "name": "U-NEXT presents ドリームテニスARIAKE ",
+        "description": "“楽しいテニス”をテーマにテニスの試合を観たことのないお子様でも一緒に盛り上がれるイベント盛りだくさん!チャリティイベントとして6年ぶりに帰ってくる!錦織圭vsダニエル太郎、国枝慎吾vs小田凱人ほか、豪華ドリームマッチをお楽しみに!12/8(日)有明コロシアムにて開催。",
+        "price": 4000,
+        "owner_address": "",
+        "time_stamp": 1672608500,
+        "image_url": "https://image.pia.jp/images/202411/202411130017_ex.jpg"
+    },
+    {
+        "ticket_id": 3,
+        "name": "ミュージカル『レ・ミゼラブル』",
+        "description": "全世界で興行収入記録更新中の“ミュージカルの金字塔",
+        "price": 2500,
+        "owner_address": "",
+        "time_stamp": 1672708500,
+        "image_url": "https://image.pia.jp/uploads5/files/1017/2474/5807/2408lm.png"
+    },
+    {
+        "ticket_id": 4,
+        "name": "「進撃の巨人」-the Musical- ",
+        "description": "ニューヨーク公演を経て、2024年12月・東京、2025年1月・大阪で日本凱旋公演を上演!”進撃ミュ”が大旋風を巻き起こす!",
+        "price": 1500,
+        "owner_address": "",
+        "time_stamp": 1672708500,
+        "image_url": "https://image.pia.jp/images/202407/202407220000_ex.png"
+    },
+    {
+        "ticket_id": 5,
+        "name": "Maroon 5 ",
+        "description": "ヒット曲満載の東京ドーム3公演「Maroon 5 Asia 2025 - Tokyo」を開催！2/8(土)公演は完売！売り切れ間近の他公演もお見逃しなく！",
+        "price": 6900,
+        "owner_address": "",
+        "time_stamp": 1672708500,
+        "image_url": "https://image.pia.jp/images/202410/202410250066_ex.jpg"
+    }
+
+]
