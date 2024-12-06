@@ -124,6 +124,9 @@ func (bcs *BlockchainServer) Mine(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+/*
+Mining to Authenticate the Block
+*/
 func (bcs *BlockchainServer) StartMine(w http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodGet:
