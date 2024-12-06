@@ -55,12 +55,12 @@
     },
     {
         "ticket_id": 7,
-        "name": "大相撲一月場所",
-        "description": "迫力のある取組を観に行こう！大相撲初場所は、1/12(日)～26(日)両国国技館で開催！",
-        "price": 2500,
+        "name": "乃木坂46 真夏の全国ツアー2024",
+        "description": "乃木坂46にとって夏の風物詩である「真夏の全国ツアー」を今年も行います！ 「乃木坂46 真夏の全国ツアー2024」を5年ぶりにドームツアーとして開催いたします！",
+        "price": 7000,
         "owner_address": "",
         "time_stamp": 1672708500,
-        "image_url": "https://image.pia.jp/images/202411/202411260020_ex.png"
+        "image_url": "https://www.billboard.com/wp-content/uploads/media/Nogizaka46-2017-billboard-1548.jpg?w=942&h=623&crop=1"
     },
     {
         "ticket_id": 8,
