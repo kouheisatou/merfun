@@ -275,7 +275,7 @@ func (ws *WalletServer) GetAllTicket(w http.ResponseWriter, req *http.Request) {
 				ImageURL:     &tic.ImageURL,
 			})
 		}
-		w.Header().Add("Content-Type", "application/json")
+		w.Header().Add("Content-Type", "application/json; charset=utf-8")
 
 		m, _ := json.Marshal(tresp)
 
