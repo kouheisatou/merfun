@@ -24,7 +24,7 @@ import (
 const tempDir = "./templates"
 
 var ticketMap = make(map[int]*ticket.NFTTicket)
-var dummyWallet = make([]*wallet.Wallet, 5)
+var dummyWallet = make([]*wallet.Wallet, 0)
 
 type WalletServer struct {
 	port    uint16
@@ -37,13 +37,13 @@ func (ws *WalletServer) init() {
 		fmt.Println("Failed to load tickets:", err)
 		return
 	}
+	var wal *wallet.Wallet
 	for i := 1; i <= 5; i++ {
-		wallet := wallet.NewWallet()
-		dummyWallet = append(dummyWallet, wallet)
-		ticketMap[i].OwnerAddress = wallet.BlockchainAddress()
+		wal = wallet.NewWallet()
+		dummyWallet = append(dummyWallet, wal)
+		ticketMap[i].OwnerAddress = wal.BlockchainAddress()
 		ticketMap[i].TimeStamp = time.Now().UnixNano()
 	}
-	fmt.Println(*ticketMap[1])
 
 }
 
