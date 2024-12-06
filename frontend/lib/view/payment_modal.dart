@@ -1,15 +1,24 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:frontend/shared_resource.dart';
 import 'package:openapi/api.dart';
 
 import 'confirmation_dialog.dart';
 import 'buttons.dart';
 
-class PaymentModal extends StatelessWidget {
+class PaymentModal extends StatefulWidget {
   Ticket ticket;
 
   PaymentModal({required this.ticket, super.key});
+
+  @override
+  State<PaymentModal> createState() => _PaymentModalState();
+}
+
+class _PaymentModalState extends State<PaymentModal> {
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +79,10 @@ class PaymentModal extends StatelessWidget {
                     ),
                   ),
                   Positioned(
+                      child: Center(
+                    child: isLoading ? CircularProgressIndicator() : null,
+                  )),
+                  Positioned(
                     left: 15,
                     top: 13,
                     child: Container(
@@ -77,20 +90,20 @@ class PaymentModal extends StatelessWidget {
                       child: SizedBox(
                         width: 60,
                         height: 60,
-                        child: Image.network(ticket.imageUrl),
+                        child: Image.network(widget.ticket.imageUrl),
                       ),
                     ),
                   ),
                   Positioned(
                     left: 87,
                     top: 23,
-                    child: Text(utf8.decode(base64Decode(ticket.name))),
+                    child: Text(utf8.decode(base64Decode(widget.ticket.name))),
                   ),
                   Positioned(
                     left: 89,
                     top: 44,
                     child: Text(
-                      "¥ ${ticket.price}",
+                      "¥ ${widget.ticket.price}",
                       style: TextStyle(fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -110,17 +123,47 @@ class PaymentModal extends StatelessWidget {
                           SizedBox(
                             width: 15,
                           ),
-                          MercariButtonRed(
-                            text: "  購入手続きへ  ",
-                            onPressed: () {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return ConfirmationDialog();
-                                },
-                              );
-                            },
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: !isLoading ? Colors.red : Colors.grey,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0), // 角丸
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            ),
+                            onPressed: !isLoading
+                                ? () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+
+                                    myWallet ??= await walletServerApi.walletPost();
+                                    var resp = await walletServerApi.transactionPost(
+                                      TransactionPostRequest(
+                                        senderPrivateKey: widget.ticket.ownerAddress,
+                                        senderBlockchainAddress: myWallet!.blockchainAddress,
+                                        recipientBlockchainAddress: widget.ticket.ownerAddress,
+                                        senderPublicKey: myWallet!.publicKey,
+                                        value: widget.ticket.price.toString(),
+                                      ),
+                                    );
+                                    sleep(Duration(seconds: 1));
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    Navigator.pop(context);
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return ConfirmationDialog();
+                                      },
+                                    );
+                                  }
+                                : null,
+                            child: Text(
+                              "  購入手続きへ  ",
+                              style: TextStyle(color: Colors.white, fontSize: 16),
+                            ),
                           ),
                         ],
                       ),

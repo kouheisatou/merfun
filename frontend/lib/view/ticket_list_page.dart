@@ -21,7 +21,7 @@ class _TicketListPageState extends State<TicketListPage> {
   }
 
   Future<void> fetchTickets() async {
-    tickets = (await wallet_server_api.ticketAllGet()) ?? [];
+    tickets = (await walletServerApi.ticketAllGet()) ?? [];
     setState(() {
       _isLoading = false;
     });

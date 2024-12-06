@@ -1,3 +1,4 @@
 import 'package:openapi/api.dart';
 
-final wallet_server_api = DefaultApi(ApiClient(basePath: "http://localhost:8080"));
+final walletServerApi = DefaultApi(ApiClient(basePath: "http://localhost:8080"));
+Wallet? myWallet = null;
