@@ -92,12 +92,14 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             Positioned(
-              left: 60,
+              left: 64,
+              top: 5,
               child: InkWell(
                 onTap: () {},
                 child: Container(
-                  width: 60,
-                  height: 60,
+                  width: 55,
+                  height: 55,
+                  child: Image.asset("images/ticket_icon.png"),
                 ),
               ),
             )

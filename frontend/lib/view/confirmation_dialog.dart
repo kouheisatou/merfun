@@ -17,7 +17,7 @@ class ConfirmationDialog extends StatelessWidget {
             SizedBox(height: 16),
             // メッセージテキスト
             Text(
-              "ご購入ありがとうございます！",
+              "購入が完了しました",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
@@ -31,9 +31,10 @@ class ConfirmationDialog extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
               ),
               onPressed: () {
+                Navigator.pop(context);
               },
               child: Text(
-                "獲得したNFTカードを見る",
+                "他のチケットも見る",
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
@@ -42,7 +43,7 @@ class ConfirmationDialog extends StatelessWidget {
               onPressed: () {
               },
               child: Text(
-                "シェアする",
+                "商品をシェアする",
                 style: TextStyle(fontSize: 14, color: Colors.red),
               ),
             ),
