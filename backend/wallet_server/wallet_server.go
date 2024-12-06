@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"html/template"
@@ -248,6 +249,10 @@ func (ws *WalletServer) CreateTransaction(w http.ResponseWriter, req *http.Reque
 	}
 }
 
+func encodeBase64(input string) string {
+	return base64.StdEncoding.EncodeToString([]byte(input))
+}
+
 /*
 	Get Project List
 
@@ -266,10 +271,13 @@ func (ws *WalletServer) GetAllTicket(w http.ResponseWriter, req *http.Request) {
 
 		for _, tic := range ticketMap {
 
+			encodedName := encodeBase64(tic.Name)
+			encodedDescription := encodeBase64(tic.Description)
+
 			tresp = append(tresp, ticket.TicketResponse{
 				TicketId:     &tic.TicketID,
-				Name:         &tic.Name,
-				Description:  &tic.Description,
+				Name:         &encodedName,
+				Description:  &encodedDescription,
 				OwnerAddress: &tic.OwnerAddress,
 				Price:        &tic.Price,
 				ImageURL:     &tic.ImageURL,
