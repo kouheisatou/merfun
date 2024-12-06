@@ -1,13 +1,15 @@
 import 'dart:convert';
 
+import 'package:blockchain_server_api/api.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/models/ticket_detail_model.dart';
+import 'package:frontend/shared_resource.dart';
 import 'package:frontend/view/buttons.dart';
 import 'package:frontend/view/payment_modal.dart';
 import 'package:http/http.dart' as http;
 
 class TicketDetailPage extends StatefulWidget {
-  TicketDetailModel ticket;
+  Ticket ticket;
+  bool disableButton = false;
 
   TicketDetailPage({required this.ticket, super.key});
 
@@ -16,26 +18,6 @@ class TicketDetailPage extends StatefulWidget {
 }
 
 class _TicketDetailPageState extends State<TicketDetailPage> {
-  // late Future<TicketDetailModel> ticket;
-
-  @override
-  void initState() {
-    super.initState();
-    // ticket = fetchTicketDetail();
-  }
-
-  Future<TicketDetailModel> fetchTicketDetail() async {
-    // ダミーAPIからデータを取得
-    final response = await http.get(Uri.parse('https://google.com'));
-    // final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/posts/${widget.ticketId}'));
-    if (response.statusCode == 200) {
-      // final data = json.decode(response.body);
-      final data = json.decode('{}');
-      return TicketDetailModel.fromJson(data);
-    } else {
-      throw Exception('データの取得に失敗しました');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +46,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                widget.ticket.title,
+                widget.ticket.name,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
@@ -87,7 +69,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: MercariButtonRed(
-                onPressed: !widget.ticket.purchased
+                onPressed: !widget.disableButton
                     ? () async {
                         await showModalBottomSheet(
                           context: context,
@@ -99,6 +81,7 @@ class _TicketDetailPageState extends State<TicketDetailPage> {
                             return PaymentModal(ticket: widget.ticket);
                           },
                         );
+                        widget.disableButton = true;
                         setState(() {});
                       }
                     : null,

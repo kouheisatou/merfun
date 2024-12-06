@@ -1,11 +1,11 @@
+import 'package:blockchain_server_api/api.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/models/ticket_detail_model.dart';
 
 import 'confirmation_dialog.dart';
 import 'buttons.dart';
 
 class PaymentModal extends StatelessWidget {
-  TicketDetailModel ticket;
+  Ticket ticket;
 
   PaymentModal({required this.ticket, super.key});
 
@@ -82,7 +82,7 @@ class PaymentModal extends StatelessWidget {
                   Positioned(
                     left: 87,
                     top: 23,
-                    child: Text(ticket.title),
+                    child: Text(ticket.name),
                   ),
                   Positioned(
                     left: 89,
@@ -112,7 +112,6 @@ class PaymentModal extends StatelessWidget {
                             text: "  購入手続きへ  ",
                             onPressed: () {
                               Navigator.pop(context);
-                              ticket.purchased = true;
                               showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
