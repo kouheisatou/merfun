@@ -39,7 +39,7 @@ func (ws *WalletServer) init() {
 		return
 	}
 	var wal *wallet.Wallet
-	for i := 1; i <= 5; i++ {
+	for i := 1; i <= 8; i++ {
 		wal = wallet.NewWallet()
 		dummyWallet = append(dummyWallet, wal)
 		ticketMap[i].OwnerAddress = wal.BlockchainAddress()
